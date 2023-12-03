@@ -1,38 +1,23 @@
 import { Box } from "@mui/material";
-import Header from "./components/Header";
-import Card from "./components/Card";
-import AddTask from "./components/AddTask";
-import { useState } from "react";
+import Header from "../../src/components/Header";
+import Card from "../../src/components/Card";
+import AddTask from "../../src/components/AddTask";
+import { useContext, useEffect, useState } from "react";
+import { MyContext } from "../../src/store/MyContext";
 
 // CRUD
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: "0",
-      taskName: "Demo Title 1",
-      description: "Remind me later",
-      reminder: true,
-    },
-    {
-      id: "1",
-      taskName: "Demo Title 2",
-      description: "Remind me later",
-      reminder: true,
-    },
-    {
-      id: "2",
-      taskName: "Demo Title 3",
-      description: "Remind me later",
-      reminder: true,
-    },
-    {
-      id: "3",
-      taskName: "Demo Title 4",
-      description: "Remind me later",
-      reminder: true,
-    },
-  ]);
+  const { tasks, setTasks } = useContext(MyContext);
+
+  // onUpdate
+  useEffect(() => {
+    localStorage.setItem("taskDummy", JSON.stringify(tasks));
+    // unMount
+    return () => {
+      localStorage.setItem("taskDummy", JSON.stringify(tasks));
+    };
+  }, [tasks]);
 
   const [showText, setShowText] = useState("Add Task");
   const [btnClicked, setBtnClicked] = useState(false);
